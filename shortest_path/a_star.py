@@ -7,26 +7,23 @@ def heuristic(a, b):
 def a_star(adjList, start, goal):
     pq = [(0,start)]
     size = len(adjList)
-    distances = [math.inf] * size
-    distances[start] = 0
+    distances = {start: 0} 
     prev = [None] * size
 
     while pq:
         weight_vertice, vertice = heapq.heappop(pq)
-        if weight_vertice > distances[vertice]:
-            continue
 
         if vertice == goal:
             return rebuild_path(prev, start, goal)
 
         for neighbor, weight in adjList[vertice]:
             distance = weight_vertice + weight
-            if distances[neighbor] > distance:
+            if neighbor not in distances or distances[neighbor] > distance:
                 distances[neighbor] = distance
                 priority = distance + heuristic(neighbor, goal)
                 heapq.heappush(pq, (priority, neighbor))
                 prev[neighbor] = vertice
-    
+
     return None
 
 def rebuild_path(paths, start, goal):
