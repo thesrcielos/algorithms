@@ -1,6 +1,9 @@
 import heapq
 import math
 
+def heuristic(a, b):
+    return abs(a - b)
+
 def a_star(adjList, start, goal):
     pq = [(0,start)]
     size = len(adjList)
@@ -20,7 +23,8 @@ def a_star(adjList, start, goal):
             distance = weight_vertice + weight
             if distances[neighbor] > distance:
                 distances[neighbor] = distance
-                heapq.heappush(pq, (distance, neighbor))
+                priority = distance + heuristic(neighbor, goal)
+                heapq.heappush(pq, (priority, neighbor))
                 prev[neighbor] = vertice
     
     return None
